@@ -70,8 +70,8 @@ export default function BikeController({ onPositionUpdate }: BikeControllerProps
     }
 
     let turnDirection = 0;
-    if (left) turnDirection = -1; // Inverted because car now faces +Z
-    if (right) turnDirection = 1;  // Inverted because car now faces +Z
+    if (left) turnDirection = 1;  // Left turn = positive rotation
+    if (right) turnDirection = -1; // Right turn = negative rotation
     
     if (Math.abs(speed) > 0.1) {
       rotationVelocity.current = THREE.MathUtils.lerp(
@@ -94,11 +94,11 @@ export default function BikeController({ onPositionUpdate }: BikeControllerProps
     
     if (frontLeftWheelRef.current) {
       frontLeftWheelRef.current.rotation.x = wheelRotation.current;
-      frontLeftWheelRef.current.rotation.y = -rotationVelocity.current * 0.3; // Inverted for correct steering visual
+      frontLeftWheelRef.current.rotation.y = rotationVelocity.current * 0.3;
     }
     if (frontRightWheelRef.current) {
       frontRightWheelRef.current.rotation.x = wheelRotation.current;
-      frontRightWheelRef.current.rotation.y = -rotationVelocity.current * 0.3; // Inverted for correct steering visual
+      frontRightWheelRef.current.rotation.y = rotationVelocity.current * 0.3;
     }
     if (backLeftWheelRef.current) {
       backLeftWheelRef.current.rotation.x = wheelRotation.current;
