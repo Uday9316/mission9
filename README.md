@@ -1,36 +1,98 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Monad Ecosystem Explorer
+
+An interactive frontend application showcasing all dApps and infrastructure projects in the Monad ecosystem. Built with Next.js, TypeScript, and shadcn UI.
+
+## Features
+
+- 🔍 **Search & Filter**: Search dApps by name, description, or category
+- 🏷️ **Category Filtering**: Filter by categories (DeFi, Gaming, NFT, Social, AI, etc.)
+- 📱 **Type Filtering**: Filter by type (App, Infra, App/Infra)
+- 🚀 **Status Filtering**: Filter by status (Live on Testnet, Coming Soon)
+- 🎨 **Modern UI**: Beautiful, responsive design with dark mode support
+- ⚡ **Fast & Interactive**: Built with Next.js for optimal performance
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
+- Node.js 18+ 
+- npm or yarn
+
+### Installation
+
+1. Install dependencies:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Run the development server:
+```bash
+npm run dev
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Open [http://localhost:3000](http://localhost:3000) in your browser
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Build for Production
 
-## Learn More
+```bash
+npm run build
+npm start
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Project Structure
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+monad-eco/
+├── app/
+│   ├── page.tsx          # Main page with dApp listing
+│   ├── layout.tsx        # Root layout
+│   └── globals.css       # Global styles
+├── components/
+│   └── ui/               # shadcn UI components
+│       ├── card.tsx
+│       ├── badge.tsx
+│       ├── input.tsx
+│       ├── button.tsx
+│       └── select.tsx
+├── data/
+│   └── dapps.ts          # dApp data
+└── lib/
+    └── utils.ts          # Utility functions
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Technologies Used
 
-## Deploy on Vercel
+- **Next.js 16** - React framework
+- **TypeScript** - Type safety
+- **Tailwind CSS** - Styling
+- **shadcn UI** - UI component library
+- **Radix UI** - Accessible component primitives
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Data
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The dApp data is stored in `data/dapps.ts` and includes:
+- dApp name and description
+- Type (App, Infra, App/Infra)
+- Categories
+- Status (Live on Testnet, Coming Soon)
+- Only on Monad flag
+
+## Customization
+
+To add or modify dApps, edit the `data/dapps.ts` file. The interface is defined as:
+
+```typescript
+interface Dapp {
+  id: string;
+  name: string;
+  description: string;
+  type: "App" | "Infra" | "App/Infra";
+  categories: string[];
+  status: "Live on Testnet" | "Coming Soon";
+  onlyOnMonad: boolean;
+}
+```
+
+## License
+
+MIT
