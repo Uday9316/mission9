@@ -103,6 +103,17 @@ export default function Home() {
     return status === "Live on Testnet" ? "text-green-500" : "text-yellow-500";
   };
 
+  // Normalize URL to ensure it has a protocol
+  const normalizeUrl = (url: string | undefined): string | null => {
+    if (!url) return null;
+    // If URL already has a protocol, return as is
+    if (url.startsWith("http://") || url.startsWith("https://")) {
+      return url;
+    }
+    // Add https:// if missing
+    return `https://${url}`;
+  };
+
   const handleProjectSelect = (dapp: Dapp) => {
     setSelectedProject(dapp);
   };
@@ -254,9 +265,9 @@ export default function Home() {
                 {/* Links Section - Always show */}
                 <div className="pt-4 border-t border-slate-200 dark:border-slate-800">
                   <div className="flex flex-col gap-3">
-                    {selectedProject.website ? (
+                    {normalizeUrl(selectedProject.website) ? (
                       <a
-                        href={selectedProject.website}
+                        href={normalizeUrl(selectedProject.website) || "#"}
             target="_blank"
             rel="noopener noreferrer"
                         className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-slate-100 dark:bg-slate-900 hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors border border-slate-200 dark:border-slate-800"
@@ -287,9 +298,9 @@ export default function Home() {
                         <span className="font-medium">Website - Coming soon</span>
                       </div>
                     )}
-                    {selectedProject.twitter ? (
+                    {normalizeUrl(selectedProject.twitter) ? (
                       <a
-                        href={selectedProject.twitter}
+                        href={normalizeUrl(selectedProject.twitter) || "#"}
             target="_blank"
             rel="noopener noreferrer"
                         className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-slate-100 dark:bg-slate-900 hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors border border-slate-200 dark:border-slate-800"
