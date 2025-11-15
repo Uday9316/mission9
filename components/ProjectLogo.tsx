@@ -172,7 +172,7 @@ export default function ProjectLogo({ name, id }: ProjectLogoProps) {
           {/* eslint-disable-next-line jsx-a11y/alt-text */}
           <Image 
             url={logoUrl} 
-            scale={[0.6, 0.6]} 
+            scale={[0.9, 0.9]} 
             transparent={true}
             position={[0, 0, 0.1]}
           />
