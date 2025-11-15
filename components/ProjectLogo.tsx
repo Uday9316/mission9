@@ -1,34 +1,43 @@
 "use client";
 
-import { useState, Suspense, useEffect } from "react";
+import React, { useState, Suspense, useEffect, useCallback } from "react";
 import { Image, Text, Billboard } from "@react-three/drei";
-import * as THREE from "three";
+import { projectLogos } from "@/data/logoMap";
 
 interface ProjectLogoProps {
   name: string;
   id: string;
+  website?: string;
 }
 
-// Known logo mappings for projects - only include verified logos
-const logoMap: { [key: string]: string } = {
-  "0x": "https://logo.clearbit.com/0x.org",
-  "alchemy": "https://logo.clearbit.com/alchemy.com",
-  "balancer": "https://logo.clearbit.com/balancer.fi",
-  "band-protocol": "https://logo.clearbit.com/bandprotocol.com",
-  "biconomy": "https://logo.clearbit.com/biconomy.io",
-  "birdeye": "https://logo.clearbit.com/birdeye.so",
-  "bitget-wallet": "https://logo.clearbit.com/bitget.com",
-  "blockdaemon": "https://logo.clearbit.com/blockdaemon.com",
-  "dune": "https://logo.clearbit.com/dune.com",
-  "euler": "https://logo.clearbit.com/euler.finance",
-  "farcaster": "https://logo.clearbit.com/farcaster.xyz",
-  "flipside-crypto": "https://logo.clearbit.com/flipsidecrypto.xyz",
-};
-
-// Function to get project logo URL - only return if we have a verified mapping
-const getProjectLogoUrl = (name: string, id: string): string | null => {
-  // Only use known logo mappings to avoid errors
-  return logoMap[id] || null;
+// Function to get project logo URL from logoMap
+const getProjectLogoUrl = (id: string): string | null => {
+  const normalizedId = id.toLowerCase();
+  
+  // Try exact match first
+  if (projectLogos[normalizedId]) {
+    return projectLogos[normalizedId];
+  }
+  
+  // Try with underscores replaced by hyphens (most common format in logoMap)
+  const hyphenId = normalizedId.replace(/_/g, '-');
+  if (projectLogos[hyphenId]) {
+    return projectLogos[hyphenId];
+  }
+  
+  // Try with hyphens replaced by underscores
+  const underscoreId = normalizedId.replace(/-/g, '_');
+  if (projectLogos[underscoreId]) {
+    return projectLogos[underscoreId];
+  }
+  
+  // Try removing dots and special chars
+  const cleanId = normalizedId.replace(/[._-]/g, '-');
+  if (projectLogos[cleanId]) {
+    return projectLogos[cleanId];
+  }
+  
+  return null;
 };
 
 // Function to get fallback initial
@@ -39,64 +48,86 @@ const getInitial = (name: string): string => {
   }
   return name.substring(0, 2).toUpperCase().replace(/[^A-Z]/g, "A");
 };
+  
+// SafeImage component removed - using Image directly now
 
-// Safe Image component that handles errors gracefully
-function SafeImage({ url, onError }: { url: string; onError: () => void }) {
-  const [shouldLoad, setShouldLoad] = useState(true);
-
-  useEffect(() => {
-    // Pre-validate image before loading in 3D
-    const img = new window.Image();
-    img.crossOrigin = "anonymous";
-    
-    const handleLoad = () => {
-      setShouldLoad(true);
-    };
-    
-    const handleError = () => {
-      setShouldLoad(false);
-      onError();
-    };
-    
-    img.onload = handleLoad;
-    img.onerror = handleError;
-    img.src = url;
-
-    return () => {
-      img.onload = null;
-      img.onerror = null;
-    };
-  }, [url, onError]);
-
-  if (!shouldLoad) {
-    return null;
+// Simple error boundary for catching drei Image errors
+class ErrorBoundary extends React.Component<
+  { children: React.ReactNode; fallback: React.ReactNode; onError: () => void },
+  { hasError: boolean }
+> {
+  constructor(props: { children: React.ReactNode; fallback: React.ReactNode; onError: () => void }) {
+    super(props);
+    this.state = { hasError: false };
   }
 
-  return <Image url={url} scale={[0.9, 0.9]} transparent />;
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+
+  componentDidCatch() {
+    // Silently handle errors - don't log to console
+    this.props.onError();
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return <>{this.props.fallback}</>;
+    }
+    return <>{this.props.children}</>;
+  }
 }
 
 export default function ProjectLogo({ name, id }: ProjectLogoProps) {
   const [imageError, setImageError] = useState(false);
-  const logoUrl = getProjectLogoUrl(name, id);
+  const [showText, setShowText] = useState(true);
+  const logoUrl = getProjectLogoUrl(id);
   const initial = getInitial(name);
+  
+  // Debug: log logo URL for first few projects
+  useEffect(() => {
+    if (logoUrl && id === "0x") {
+      console.log("Logo URL for", id, ":", logoUrl);
+    }
+  }, [logoUrl, id]);
+  
+  // Hide text after a delay if image is loading successfully
+  // This gives time for the image to load, then hides the text
+  useEffect(() => {
+    if (logoUrl && !imageError) {
+      const timer = setTimeout(() => {
+        setShowText(false);
+      }, 1000); // Hide text after 1 second if no error (gives time for image to load)
+      return () => clearTimeout(timer);
+    }
+  }, [logoUrl, imageError]);
+  
+  // Memoize the error handler to prevent infinite loops
+  const handleImageError = useCallback(() => {
+    console.log("Image error for", id, logoUrl);
+    setImageError(true);
+    setShowText(true); // Show text if image errors
+  }, [id, logoUrl]);
 
-  // Fallback text component
+  // Fallback text component - only show when logo fails
   const FallbackText = (
     <Text
-      fontSize={0.35}
+      fontSize={0.25}
       color="#ffffff"
       anchorX="center"
       anchorY="middle"
       fontWeight="bold"
       outlineWidth={0.01}
       outlineColor="#000000"
+      renderOrder={0}
     >
       {initial}
     </Text>
   );
 
-  // If no logo URL or error occurred, show initials
-  if (!logoUrl || imageError) {
+  // Always show something - logo or initials
+  // If no logo URL, show initials immediately
+  if (!logoUrl) {
     return (
       <Billboard position={[0, 0, 0]}>
         {FallbackText}
@@ -104,16 +135,49 @@ export default function ProjectLogo({ name, id }: ProjectLogoProps) {
     );
   }
 
-  // Try to load the logo
+  // Validate logo URL - must be an image URL, not a website
+  const isValidImageUrl = logoUrl && (
+    logoUrl.includes('.webp') || 
+    logoUrl.includes('.png') || 
+    logoUrl.includes('.jpg') || 
+    logoUrl.includes('.jpeg') || 
+    logoUrl.includes('.svg') ||
+    logoUrl.includes('cdn.prod.website-files.com')
+  );
+
+  // If image error or invalid URL, show text only
+  if (imageError || !isValidImageUrl) {
+    return (
+      <Billboard position={[0, 0, 0]}>
+        {FallbackText}
+      </Billboard>
+    );
+  }
+
+  // Try to load the logo - only show text if image fails to load
   return (
     <Billboard position={[0, 0, 0]}>
-      <Suspense fallback={FallbackText}>
-        <SafeImage
-          url={logoUrl}
-          onError={() => setImageError(true)}
-        />
-        {imageError && FallbackText}
-      </Suspense>
+      {/* Only show text if image errored or while loading */}
+      {showText && (
+        <group position={[0, 0, 0.1]}>
+          {FallbackText}
+        </group>
+      )}
+      {/* Try to render image - if it fails, show fallback */}
+      <ErrorBoundary
+        fallback={null}
+        onError={handleImageError}
+      >
+        <Suspense fallback={null}>
+          {/* eslint-disable-next-line jsx-a11y/alt-text */}
+          <Image 
+            url={logoUrl} 
+            scale={[0.6, 0.6]} 
+            transparent={true}
+            position={[0, 0, 0.1]}
+          />
+        </Suspense>
+      </ErrorBoundary>
     </Billboard>
   );
 }

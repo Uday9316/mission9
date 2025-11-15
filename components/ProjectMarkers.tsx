@@ -17,15 +17,30 @@ export default function ProjectMarkers({ dapps, onSelect, bikePosition = new THR
   const [hovered, setHovered] = useState<string | null>(null);
   const [nearby, setNearby] = useState<string | null>(null);
   const markersRef = useRef<{ [key: string]: THREE.Vector3 }>({});
+  const previousNearbyRef = useRef<string | null>(null);
   const { camera } = useThree();
 
-  // Distribute projects in a circle/spiral pattern
+  // Distribute projects in a spiral pattern to prevent overlaps
   const getProjectPosition = (index: number, total: number) => {
-    const radius = 8 + (Math.floor(index / 8) * 12);
-    const angle = (index / Math.max(8, total % 8 || 8)) * Math.PI * 2 + (Math.floor(index / 8) * 0.5);
-    const x = Math.cos(angle) * radius;
-    const z = Math.sin(angle) * radius;
-    const y = 0.5;
+    // Keep projects within a reasonable radius (max 200 units from center for 500x500 ground)
+    const maxRadius = 200;
+    const minSpacing = 3; // Minimum distance between projects
+    
+    // Use golden angle spiral for even distribution
+    const goldenAngle = Math.PI * (3 - Math.sqrt(5)); // ~2.39996 radians
+    const angle = index * goldenAngle;
+    
+    // Spiral radius increases gradually
+    const radiusRatio = index / total;
+    const radius = Math.sqrt(radiusRatio) * maxRadius;
+    
+    // Ensure minimum spacing by adjusting radius
+    const adjustedRadius = Math.max(radius, Math.sqrt(index) * minSpacing * 0.5);
+    const finalRadius = Math.min(adjustedRadius, maxRadius);
+    
+    const x = Math.cos(angle) * finalRadius;
+    const z = Math.sin(angle) * finalRadius;
+    const y = 0.6; // Slightly above ground plane (y=0)
     return new THREE.Vector3(x, y, z);
   };
 
@@ -47,7 +62,11 @@ export default function ProjectMarkers({ dapps, onSelect, bikePosition = new THR
       }
     });
 
-    setNearby(closestId);
+    // Only update state if the value actually changed
+    if (closestId !== previousNearbyRef.current) {
+      previousNearbyRef.current = closestId;
+      setNearby(closestId);
+    }
   });
 
   const getTypeColor = (type: string) => {
@@ -77,25 +96,28 @@ export default function ProjectMarkers({ dapps, onSelect, bikePosition = new THR
 
         return (
           <group key={dapp.id} position={position}>
-            {/* Project marker - glowing sphere */}
-            <mesh
+            {/* Project marker - logo as main element with subtle glow */}
+            <group
               onPointerOver={() => setHovered(dapp.id)}
               onPointerOut={() => setHovered(null)}
               onClick={() => onSelect(dapp)}
-              castShadow
             >
-              <sphereGeometry args={[0.6, 16, 16]} />
-              <meshStandardMaterial
-                color={getTypeColor(dapp.type)}
-                emissive={getTypeColor(dapp.type)}
-                emissiveIntensity={isHovered || isNearby ? 0.8 : 0.3}
-                transparent
-                opacity={0.75}
-              />
-            </mesh>
-
-            {/* Project Logo inside sphere */}
-            <ProjectLogo name={dapp.name} id={dapp.id} />
+              {/* Glowing sphere - subtle background glow */}
+              <mesh>
+                <sphereGeometry args={[0.7, 16, 16]} />
+                <meshStandardMaterial
+                  color={getTypeColor(dapp.type)}
+                  emissive={getTypeColor(dapp.type)}
+                  emissiveIntensity={isHovered || isNearby ? 0.6 : 0.2}
+                  transparent
+                  opacity={0.2}
+                  depthWrite={false}
+                />
+              </mesh>
+              
+              {/* Project Logo - main visible element */}
+              <ProjectLogo name={dapp.name} id={dapp.id} website={dapp.website} />
+            </group>
 
             {/* Glow effect when nearby */}
             {isNearby && (

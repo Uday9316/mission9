@@ -34,14 +34,14 @@ export default function Scene3D({ filteredDapps, onProjectSelect }: Scene3DProps
           {/* Camera */}
           <PerspectiveCamera makeDefault position={[0, 5, 10]} fov={75} />
 
-          {/* Ground */}
+          {/* Ground - increased size to fit all projects */}
           <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]} receiveShadow>
-            <planeGeometry args={[300, 300]} />
+            <planeGeometry args={[500, 500]} />
             <meshStandardMaterial color="#1a1a1a" />
           </mesh>
 
           {/* Grid helper */}
-          <gridHelper args={[300, 50, "#333", "#222"]} />
+          <gridHelper args={[500, 100, "#333", "#222"]} />
 
           {/* Bike Controller */}
           <BikeController onPositionUpdate={setBikePosition} />

@@ -14,12 +14,13 @@ export default function BikeController({ onPositionUpdate }: BikeControllerProps
   const frontRightWheelRef = useRef<THREE.Group>(null);
   const backLeftWheelRef = useRef<THREE.Group>(null);
   const backRightWheelRef = useRef<THREE.Group>(null);
+  const exhaustRefs = useRef<(THREE.Mesh | null)[]>([]);
   
   const velocity = useRef(new THREE.Vector3());
   const rotationVelocity = useRef(0);
   const { camera } = useThree();
   const [keys, setKeys] = useState<Set<string>>(new Set());
-  const [speed, setSpeed] = useState(0);
+  const speed = useRef(0);
   const wheelRotation = useRef(0);
 
   useEffect(() => {
@@ -64,19 +65,19 @@ export default function BikeController({ onPositionUpdate }: BikeControllerProps
     if (backward) targetSpeed = -currentMaxSpeed * 0.6;
     
     if (targetSpeed !== 0) {
-      setSpeed((prev) => THREE.MathUtils.lerp(prev, targetSpeed, acceleration * delta));
+      speed.current = THREE.MathUtils.lerp(speed.current, targetSpeed, acceleration * delta);
     } else {
-      setSpeed((prev) => THREE.MathUtils.lerp(prev, 0, deceleration * delta));
+      speed.current = THREE.MathUtils.lerp(speed.current, 0, deceleration * delta);
     }
 
     let turnDirection = 0;
     if (left) turnDirection = 1;  // Left turn = positive rotation
     if (right) turnDirection = -1; // Right turn = negative rotation
     
-    if (Math.abs(speed) > 0.1) {
+    if (Math.abs(speed.current) > 0.1) {
       rotationVelocity.current = THREE.MathUtils.lerp(
         rotationVelocity.current,
-        turnDirection * turnSpeed * (Math.abs(speed) / maxSpeed),
+        turnDirection * turnSpeed * (Math.abs(speed.current) / maxSpeed),
         delta * 5
       );
     } else {
@@ -87,10 +88,10 @@ export default function BikeController({ onPositionUpdate }: BikeControllerProps
 
     const forwardVector = new THREE.Vector3(0, 0, 1); // Changed to +1 so car moves in +Z direction
     forwardVector.applyQuaternion(carRef.current.quaternion);
-    forwardVector.multiplyScalar(speed * delta);
+    forwardVector.multiplyScalar(speed.current * delta);
     carRef.current.position.add(forwardVector);
 
-    wheelRotation.current += speed * delta * 2;
+    wheelRotation.current += speed.current * delta * 2;
     
     if (frontLeftWheelRef.current) {
       frontLeftWheelRef.current.rotation.x = wheelRotation.current;
@@ -106,6 +107,16 @@ export default function BikeController({ onPositionUpdate }: BikeControllerProps
     if (backRightWheelRef.current) {
       backRightWheelRef.current.rotation.x = wheelRotation.current;
     }
+
+    // Update exhaust glow based on speed
+    const exhaustIntensity = Math.min(1, Math.abs(speed.current) / (maxSpeed * 0.5));
+    exhaustRefs.current.forEach((exhaustMesh) => {
+      if (exhaustMesh && exhaustMesh.material) {
+        const material = exhaustMesh.material as THREE.MeshStandardMaterial;
+        material.emissiveIntensity = exhaustIntensity * 0.8;
+        exhaustMesh.visible = Math.abs(speed.current) > 0.5;
+      }
+    });
 
     const carPosition = carRef.current.position;
     // Camera positioned behind the car (negative Z = behind, since car now faces +Z)
@@ -300,16 +311,20 @@ export default function BikeController({ onPositionUpdate }: BikeControllerProps
               <meshStandardMaterial color="#1a1a1a" metalness={0.98} roughness={0.05} />
             </mesh>
             {/* Exhaust tip - glowing when moving */}
-            {Math.abs(speed) > 0.5 && (
-              <mesh position={[x, 0, 0.35]}>
-                <cylinderGeometry args={[0.12, 0.12, 0.15, 32]} />
-                <meshStandardMaterial 
-                  color="#ff6600" 
-                  emissive="#ff4400" 
-                  emissiveIntensity={1.0 + Math.abs(speed) * 0.15}
-                />
-              </mesh>
-            )}
+            <mesh 
+              ref={(el) => {
+                if (el) exhaustRefs.current[i] = el;
+              }}
+              position={[x, 0, 0.35]}
+              visible={false}
+            >
+              <cylinderGeometry args={[0.12, 0.12, 0.15, 32]} />
+              <meshStandardMaterial 
+                color="#ff6600" 
+                emissive="#ff4400" 
+                emissiveIntensity={0}
+              />
+            </mesh>
             {/* Exhaust tip ring */}
             <mesh position={[x, 0, 0.35]}>
               <torusGeometry args={[0.12, 0.018, 20, 48]} />

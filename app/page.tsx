@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -15,6 +15,71 @@ export default function Home() {
   const [selectedType, setSelectedType] = useState<string>("All");
   const [selectedStatus, setSelectedStatus] = useState<string>("All");
   const [selectedProject, setSelectedProject] = useState<Dapp | null>(null);
+  const [audioEnabled, setAudioEnabled] = useState(true); // Audio ON by default
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const hasPlayedRef = useRef(false);
+
+  // Initialize audio
+  useEffect(() => {
+    // Create audio element
+    audioRef.current = new Audio("/bugatti.mp3");
+    audioRef.current.loop = true;
+    audioRef.current.volume = 0.5; // Set volume to 50%
+    
+    // Handle audio events
+    audioRef.current.addEventListener('ended', () => {
+      // If loop didn't work, manually restart
+      if (audioRef.current && audioEnabled) {
+        audioRef.current.currentTime = 0;
+        audioRef.current.play().catch(console.error);
+      }
+    });
+
+    // Try to play audio after user interaction (only if audio is enabled)
+    const handleUserInteraction = () => {
+      if (!hasPlayedRef.current && audioRef.current && audioEnabled) {
+        audioRef.current.play()
+          .then(() => {
+            console.log("✅ Audio started playing");
+            hasPlayedRef.current = true;
+          })
+          .catch((error) => {
+            console.log("❌ Audio autoplay prevented:", error);
+          });
+      }
+    };
+
+    // Listen for any user interaction (not once, so it can retry)
+    document.addEventListener("click", handleUserInteraction);
+    document.addEventListener("keydown", handleUserInteraction);
+    document.addEventListener("touchstart", handleUserInteraction);
+
+    // Cleanup
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+      document.removeEventListener("click", handleUserInteraction);
+      document.removeEventListener("keydown", handleUserInteraction);
+      document.removeEventListener("touchstart", handleUserInteraction);
+    };
+  }, [audioEnabled]);
+
+  // Handle audio toggle
+  useEffect(() => {
+    if (audioRef.current) {
+      if (audioEnabled) {
+        // Try to play if not already playing
+        if (hasPlayedRef.current) {
+          audioRef.current.play().catch(console.error);
+        }
+      } else {
+        // Pause audio
+        audioRef.current.pause();
+      }
+    }
+  }, [audioEnabled]);
 
   const filteredDapps = useMemo(() => {
     return dapps.filter((dapp) => {
@@ -38,19 +103,6 @@ export default function Home() {
     return status === "Live on Testnet" ? "text-green-500" : "text-yellow-500";
   };
 
-  const getTypeColor = (type: string) => {
-    switch (type) {
-      case "App":
-        return "text-blue-500";
-      case "Infra":
-        return "text-purple-500";
-      case "App/Infra":
-        return "text-pink-500";
-      default:
-        return "text-gray-500";
-    }
-  };
-
   const handleProjectSelect = (dapp: Dapp) => {
     setSelectedProject(dapp);
   };
@@ -71,7 +123,7 @@ export default function Home() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="bg-white/10 border-white/20 text-white placeholder:text-white/50"
-              />
+        />
             </div>
             <Select value={selectedCategory} onValueChange={setSelectedCategory}>
               <SelectTrigger className="w-[140px] bg-white/10 border-white/20 text-white">
@@ -117,12 +169,43 @@ export default function Home() {
 
         {/* Title */}
         <div className="absolute top-4 left-4 pointer-events-auto z-10">
-          <h1 className="text-2xl font-bold text-purple-500 drop-shadow-lg">
+          <h1 className="text-2xl font-bold text-black drop-shadow-lg">
             Monad Ecosystem
           </h1>
           <p className="text-sm text-white/80">
             {filteredDapps.length} projects
           </p>
+        </div>
+
+        {/* Sound Toggle */}
+        <div className="absolute top-4 right-4 pointer-events-auto z-10">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setAudioEnabled(!audioEnabled)}
+            className="rounded-full bg-black/80 backdrop-blur-sm border border-white/20 text-white hover:bg-white/20 w-10 h-10 p-0"
+            title={audioEnabled ? "Turn sound off" : "Turn sound on"}
+          >
+            {audioEnabled ? (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+              </svg>
+            ) : (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z" />
+              </svg>
+            )}
+          </Button>
         </div>
       </div>
 
@@ -174,8 +257,8 @@ export default function Home() {
                     {selectedProject.website ? (
                       <a
                         href={selectedProject.website}
-                        target="_blank"
-                        rel="noopener noreferrer"
+            target="_blank"
+            rel="noopener noreferrer"
                         className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-slate-100 dark:bg-slate-900 hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors border border-slate-200 dark:border-slate-800"
                       >
                         <svg
@@ -207,8 +290,8 @@ export default function Home() {
                     {selectedProject.twitter ? (
                       <a
                         href={selectedProject.twitter}
-                        target="_blank"
-                        rel="noopener noreferrer"
+            target="_blank"
+            rel="noopener noreferrer"
                         className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-slate-100 dark:bg-slate-900 hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors border border-slate-200 dark:border-slate-800"
                       >
                         <svg
@@ -233,11 +316,23 @@ export default function Home() {
                     )}
                   </div>
                 </div>
-              </div>
+        </div>
             </>
           )}
         </DialogContent>
       </Dialog>
+
+      {/* Footer */}
+      <div className="absolute bottom-4 right-4 pointer-events-auto z-10">
+        <a
+          href="https://x.com/uday_dhorajiya"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-sm text-white/80 hover:text-white transition-colors"
+        >
+          by @uday_dhorajiya
+        </a>
+      </div>
     </div>
   );
 }
