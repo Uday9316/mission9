@@ -1,97 +1,85 @@
 # Monad Ecosystem Explorer
 
-An interactive frontend application showcasing all dApps and infrastructure projects in the Monad ecosystem. Built with Next.js, TypeScript, and shadcn UI.
+Monad Ecosystem Explorer is an interactive frontend application that lists and categorizes every dApp and infrastructure project built on Monad. The project leverages Next.js, TypeScript, Tailwind CSS, and shadcn UI for a modern and responsive user experience.
+
+<img width="3018" height="1722" alt="image" src="https://github.com/user-attachments/assets/42b1a6b6-cee5-4e79-8e5e-37e69d671903" />
 
 ## Features
 
-- 🔍 **Search & Filter**: Search dApps by name, description, or category
-- 🏷️ **Category Filtering**: Filter by categories (DeFi, Gaming, NFT, Social, AI, etc.)
-- 📱 **Type Filtering**: Filter by type (App, Infra, App/Infra)
-- 🚀 **Status Filtering**: Filter by status (Live on Testnet, Coming Soon)
-- 🎨 **Modern UI**: Beautiful, responsive design with dark mode support
-- ⚡ **Fast & Interactive**: Built with Next.js for optimal performance
+- Search and filter dApps by name, description, or category
+- Category, type, and status-based filtering
+- Responsive layout with light and dark modes
+- Built for performance and usability
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js 18+ 
+- Node.js 18+
 - npm or yarn
 
 ### Installation
 
-1. Install dependencies:
-```bash
 npm install
-```
-
-2. Run the development server:
-```bash
 npm run dev
-```
 
-3. Open [http://localhost:3000](http://localhost:3000) in your browser
 
-### Build for Production
 
-```bash
-npm run build
-npm start
-```
+Open http://localhost:3000 in your browser.
+
+### Production
+
+
 
 ## Project Structure
 
-```
+
 monad-eco/
 ├── app/
-│   ├── page.tsx          # Main page with dApp listing
-│   ├── layout.tsx        # Root layout
-│   └── globals.css       # Global styles
+│ ├── page.tsx # Main page with dApp listing
+│ ├── layout.tsx # Root layout
+│ └── globals.css # Global styles
 ├── components/
-│   └── ui/               # shadcn UI components
-│       ├── card.tsx
-│       ├── badge.tsx
-│       ├── input.tsx
-│       ├── button.tsx
-│       └── select.tsx
+│ └── ui/ # shadcn UI components
+│ ├── card.tsx
+│ ├── badge.tsx
+│ ├── input.tsx
+│ ├── button.tsx
+│ └── select.tsx
 ├── data/
-│   └── dapps.ts          # dApp data
+│ └── dapps.ts # dApp data
 └── lib/
-    └── utils.ts          # Utility functions
-```
+└── utils.ts # Utility functions
 
-## Technologies Used
 
-- **Next.js 16** - React framework
-- **TypeScript** - Type safety
-- **Tailwind CSS** - Styling
-- **shadcn UI** - UI component library
-- **Radix UI** - Accessible component primitives
 
-## Data
+## Technologies
 
-The dApp data is stored in `data/dapps.ts` and includes:
-- dApp name and description
-- Type (App, Infra, App/Infra)
-- Categories
-- Status (Live on Testnet, Coming Soon)
-- Only on Monad flag
+- Next.js 16
+- TypeScript
+- Tailwind CSS
+- shadcn UI
+- Radix UI
+
+## Data File
+
+The dApp listing is managed in `data/dapps.ts` using the structure below:
+
+
+interface Dapp {
+id: string;
+name: string;
+description: string;
+type: "App" | "Infra" | "App/Infra";
+categories: string[];
+status: "Live on Testnet" | "Coming Soon";
+onlyOnMonad: boolean;
+}
+
 
 ## Customization
 
-To add or modify dApps, edit the `data/dapps.ts` file. The interface is defined as:
-
-```typescript
-interface Dapp {
-  id: string;
-  name: string;
-  description: string;
-  type: "App" | "Infra" | "App/Infra";
-  categories: string[];
-  status: "Live on Testnet" | "Coming Soon";
-  onlyOnMonad: boolean;
-}
-```
+To add or modify dApps, update `data/dapps.ts` with new entries or edits as per the interface.
 
 ## License
 
