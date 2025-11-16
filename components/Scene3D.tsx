@@ -34,10 +34,10 @@ export default function Scene3D({ filteredDapps, onProjectSelect }: Scene3DProps
           {/* Camera */}
           <PerspectiveCamera makeDefault position={[0, 5, 10]} fov={75} />
 
-          {/* Purple Ground Plane */}
+          {/* Black Ground Plane */}
           <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]} receiveShadow>
             <planeGeometry args={[500, 500]} />
-            <meshStandardMaterial color="#6a1b9a" />
+            <meshStandardMaterial color="#000000" />
           </mesh>
 
           {/* Bike Controller */}
