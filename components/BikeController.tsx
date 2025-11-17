@@ -75,7 +75,7 @@ export default function BikeController({ onPositionUpdate }: BikeControllerProps
     if (!carRef.current) return;
 
     const maxSpeed = 12;
-    const boostSpeed = 20;
+    const boostSpeed = 28;
     const acceleration = 15;
     const deceleration = 20;
     const turnSpeed = 3.5;
