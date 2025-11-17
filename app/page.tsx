@@ -230,114 +230,100 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Project Detail Dialog */}
+      {/* Project Detail Dialog - Monad Style */}
       <Dialog open={!!selectedProject} onOpenChange={(open) => !open && setSelectedProject(null)}>
-        <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto bg-white dark:bg-black border border-slate-200 dark:border-slate-800 shadow-2xl">
+        <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto bg-white border border-black/20 shadow-lg p-8">
           {selectedProject && (
             <>
-              <DialogHeader>
-                <div className="flex items-start justify-between">
-                  <DialogTitle className="text-2xl">{selectedProject.name}</DialogTitle>
-                </div>
-                <DialogDescription className="text-base pt-2">
+              <DialogHeader className="mb-8">
+                <DialogTitle className="text-4xl font-light text-black tracking-[0.15em] uppercase leading-none mb-2">
+                  {selectedProject.name}
+                </DialogTitle>
+                <DialogDescription className="text-base font-extralight text-black/60 tracking-wider leading-relaxed">
                   {selectedProject.description}
                 </DialogDescription>
               </DialogHeader>
               
-              <div className="space-y-4 pt-4">
-                <div className="flex items-center gap-3">
-                  <span className="text-sm font-medium text-slate-500 dark:text-slate-400">Type:</span>
-                  <Badge variant="outline" className="bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800">
+              <div className="space-y-6">
+                {/* Type */}
+                <div className="flex items-baseline gap-4">
+                  <span className="text-sm font-light text-black/60 tracking-wider uppercase min-w-[80px] border-b border-black/20 pb-1">
+                    type
+                  </span>
+                  <span className="text-sm font-light text-black tracking-wider uppercase">
                     {selectedProject.type}
-                  </Badge>
+                  </span>
                 </div>
-                <div className="flex items-center gap-3">
-                  <span className="text-sm font-medium text-slate-500 dark:text-slate-400">Status:</span>
-                  <Badge variant="outline" className={`${getStatusColor(selectedProject.status)} bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800`}>
+
+                {/* Status */}
+                <div className="flex items-baseline gap-4">
+                  <span className="text-sm font-light text-black/60 tracking-wider uppercase min-w-[80px] border-b border-black/20 pb-1">
+                    status
+                  </span>
+                  <span className={`text-sm font-light tracking-wider uppercase ${getStatusColor(selectedProject.status)}`}>
                     {selectedProject.status}
-                  </Badge>
+                  </span>
                 </div>
-                <div>
-                  <span className="text-sm font-medium text-slate-500 dark:text-slate-400">Categories:</span>
-                  <div className="mt-2 flex flex-wrap gap-2">
+
+                {/* Categories */}
+                <div className="flex items-start gap-4">
+                  <span className="text-sm font-light text-black/60 tracking-wider uppercase min-w-[80px] border-b border-black/20 pb-1">
+                    categories
+                  </span>
+                  <div className="flex flex-wrap gap-3">
                     {selectedProject.categories.map((category) => (
-                      <Badge
+                      <span
                         key={category}
-                        variant="outline"
-                        className="text-sm bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800"
+                        className="text-sm font-light text-black tracking-wider uppercase"
                       >
                         {category}
-                      </Badge>
+                      </span>
                     ))}
                   </div>
                 </div>
                 
-                {/* Links Section - Always show */}
-                <div className="pt-4 border-t border-slate-200 dark:border-slate-800">
-                  <div className="flex flex-col gap-3">
+                {/* Links Section */}
+                <div className="pt-6 border-t border-black/20">
+                  <div className="flex flex-col gap-4">
                     {normalizeUrl(selectedProject.website) ? (
                       <a
                         href={normalizeUrl(selectedProject.website) || "#"}
-            target="_blank"
-            rel="noopener noreferrer"
-                        className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-slate-100 dark:bg-slate-900 hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors border border-slate-200 dark:border-slate-800"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-3 text-black hover:text-black/60 transition-colors border-b border-black/20 pb-1 group"
                       >
-                        <svg
-                          className="w-5 h-5"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
-                          />
-                        </svg>
-                        <span className="font-medium">Website</span>
-                        <svg className="w-4 h-4 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <span className="text-sm font-light tracking-wider uppercase">website</span>
+                        <svg className="w-4 h-4 ml-auto opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                         </svg>
                       </a>
                     ) : (
-                      <div className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-slate-400 dark:text-slate-600">
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
-                        </svg>
-                        <span className="font-medium">Website - Coming soon</span>
+                      <div className="flex items-center gap-3 text-black/40 border-b border-black/10 pb-1">
+                        <span className="text-sm font-light tracking-wider uppercase">website</span>
+                        <span className="text-xs font-extralight ml-auto">coming soon</span>
                       </div>
                     )}
                     {normalizeUrl(selectedProject.twitter) ? (
                       <a
                         href={normalizeUrl(selectedProject.twitter) || "#"}
-            target="_blank"
-            rel="noopener noreferrer"
-                        className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-slate-100 dark:bg-slate-900 hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors border border-slate-200 dark:border-slate-800"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-3 text-black hover:text-black/60 transition-colors border-b border-black/20 pb-1 group"
                       >
-                        <svg
-                          className="w-5 h-5"
-                          fill="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-                        </svg>
-                        <span className="font-medium">X (Twitter)</span>
-                        <svg className="w-4 h-4 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <span className="text-sm font-light tracking-wider uppercase">twitter</span>
+                        <svg className="w-4 h-4 ml-auto opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                         </svg>
                       </a>
                     ) : (
-                      <div className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-slate-400 dark:text-slate-600">
-                        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-                        </svg>
-                        <span className="font-medium">X (Twitter) - Coming soon</span>
+                      <div className="flex items-center gap-3 text-black/40 border-b border-black/10 pb-1">
+                        <span className="text-sm font-light tracking-wider uppercase">twitter</span>
+                        <span className="text-xs font-extralight ml-auto">coming soon</span>
                       </div>
                     )}
                   </div>
                 </div>
-        </div>
+              </div>
             </>
           )}
         </DialogContent>

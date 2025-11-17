@@ -18,7 +18,17 @@ export default function Scene3D({ filteredDapps, onProjectSelect }: Scene3DProps
 
   return (
     <div className="h-screen w-full relative">
-      <Canvas shadows>
+      <Canvas 
+        shadows
+        dpr={[1, 1.5]}
+        performance={{ min: 0.5 }}
+        gl={{ 
+          antialias: true,
+          powerPreference: "high-performance",
+          stencil: false,
+          depth: true
+        }}
+      >
         <Suspense fallback={null}>
           {/* Lighting */}
           <ambientLight intensity={0.4} />
@@ -26,8 +36,9 @@ export default function Scene3D({ filteredDapps, onProjectSelect }: Scene3DProps
             position={[10, 10, 5]}
             intensity={1}
             castShadow
-            shadow-mapSize-width={2048}
-            shadow-mapSize-height={2048}
+            shadow-mapSize-width={1024}
+            shadow-mapSize-height={1024}
+            shadow-radius={4}
           />
           <pointLight position={[-10, -10, -10]} intensity={0.3} />
 
@@ -36,7 +47,7 @@ export default function Scene3D({ filteredDapps, onProjectSelect }: Scene3DProps
 
           {/* Black Ground Plane */}
           <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]} receiveShadow>
-            <planeGeometry args={[500, 500]} />
+            <planeGeometry args={[500, 500, 1, 1]} />
             <meshStandardMaterial color="#000000" />
           </mesh>
 

@@ -36,7 +36,7 @@ function AnimatedGlowSphere({
 
   return (
     <mesh ref={meshRef}>
-      <sphereGeometry args={[radius, 32, 32]} />
+      <sphereGeometry args={[radius, 16, 16]} />
       <meshStandardMaterial
         color={color}
         emissive={color}
@@ -88,22 +88,35 @@ export default function ProjectMarkers({ dapps, onSelect, bikePosition = new THR
   };
 
   useFrame(() => {
-    // Check proximity to bike
+    // Optimized: Only check proximity for projects within reasonable range
+    // This avoids calculating distance for all 303 projects every frame
     let closestId: string | null = null;
     let closestDistance = Infinity;
+    const checkRadius = 50; // Only check projects within 50 units
 
-    dapps.forEach((dapp) => {
-      const position = markersRef.current[dapp.id] || getProjectPosition(dapps.indexOf(dapp), dapps.length);
+    // Quick spatial check - only process nearby projects
+    for (let i = 0; i < dapps.length; i++) {
+      const dapp = dapps[i];
+      const position = markersRef.current[dapp.id] || getProjectPosition(i, dapps.length);
       if (!markersRef.current[dapp.id]) {
         markersRef.current[dapp.id] = position;
       }
       
-      const distance = position.distanceTo(bikePosition);
+      // Quick distance check using squared distance (faster than distanceTo)
+      const dx = position.x - bikePosition.x;
+      const dz = position.z - bikePosition.z;
+      const dy = position.y - bikePosition.y;
+      const sqDistance = dx * dx + dz * dz + dy * dy;
+      
+      // Only calculate actual distance if within check radius
+      if (sqDistance < checkRadius * checkRadius) {
+        const distance = Math.sqrt(sqDistance);
       if (distance < 3 && distance < closestDistance) {
         closestDistance = distance;
         closestId = dapp.id;
       }
-    });
+      }
+    }
 
     // Only update state if the value actually changed
     if (closestId !== previousNearbyRef.current) {
@@ -185,7 +198,7 @@ export default function ProjectMarkers({ dapps, onSelect, bikePosition = new THR
 
               {/* Glass-like sphere shell - adds depth and reflection */}
               <mesh>
-                <sphereGeometry args={[0.7, 32, 32]} />
+                <sphereGeometry args={[0.7, 16, 16]} />
                 <meshPhysicalMaterial
                   color={typeColor}
                   emissive={typeColor}
@@ -201,7 +214,7 @@ export default function ProjectMarkers({ dapps, onSelect, bikePosition = new THR
                   thickness={0.5}
                 />
               </mesh>
-
+              
               {/* Project Logo - main visible element */}
               <ProjectLogo name={dapp.name} id={dapp.id} website={dapp.website} />
             </group>
@@ -210,7 +223,7 @@ export default function ProjectMarkers({ dapps, onSelect, bikePosition = new THR
             {isNearby && (
               <>
                 <mesh>
-                  <sphereGeometry args={[1.2, 32, 32]} />
+                  <sphereGeometry args={[1.2, 16, 16]} />
                   <meshStandardMaterial
                     color={typeColor}
                     emissive={typeColor}
@@ -220,17 +233,17 @@ export default function ProjectMarkers({ dapps, onSelect, bikePosition = new THR
                     depthWrite={false}
                   />
                 </mesh>
-                <mesh>
-                  <sphereGeometry args={[1.4, 32, 32]} />
-                  <meshStandardMaterial
+              <mesh>
+                  <sphereGeometry args={[1.4, 16, 16]} />
+                <meshStandardMaterial
                     color={typeColor}
                     emissive={typeColor}
                     emissiveIntensity={0.3}
-                    transparent
+                  transparent
                     opacity={0.08}
                     depthWrite={false}
-                  />
-                </mesh>
+                />
+              </mesh>
               </>
             )}
 

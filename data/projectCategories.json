@@ -1,0 +1,689 @@
+{
+  "0x": [
+    "DeFi::DEX Aggregator"
+  ],
+  "Aarna": [
+    "DeFi::Yield"
+  ],
+  "Accountable": [
+    "DeFi::Yield Aggregator"
+  ],
+  "Acurast": [
+    "DePIN::Compute"
+  ],
+  "Agora": [
+    "DeFi::Stablecoin"
+  ],
+  "aiCraft.fun": [
+    "AI::Agent Launchpad"
+  ],
+  "AllDomains": [
+    "Infra::Identity"
+  ],
+  "Ambient": [
+    "DeFi::DEX"
+  ],
+  "Ambire Wallet": [
+    "Infra::Wallet"
+  ],
+  "Amertis": [
+    "DeFi::DEX"
+  ],
+  "Ammalgam": [
+    "DeFi::DEX",
+    "DeFi::Lending"
+  ],
+  "Anima": [
+    "Infra::Identity"
+  ],
+  "Anterris": [
+    "Gaming::Games"
+  ],
+  "ApeBond": [
+    "DeFi::Other"
+  ],
+  "aPriori": [
+    "DeFi::MEV"
+  ],
+  "AtDawn": [
+    "Gaming::Games"
+  ],
+  "Atlantis": [
+    "DeFi::DEX"
+  ],
+  "Azaar": [
+    "DeFi::DEX Aggregator"
+  ],
+  "Balancer": [
+    "DeFi::DEX"
+  ],
+  "Band Protocol": [
+    "Infra::Oracle"
+  ],
+  "Bean Exchange": [
+    "DeFi::DEX",
+    "DeFi::Perpetuals / Derivatives"
+  ],
+  "beatBRAWLS": [
+    "Gaming::Games"
+  ],
+  "Bebop": [
+    "DeFi::Intents"
+  ],
+  "Bima": [
+    "DeFi::Asset Issuers"
+  ],
+  "Blast Commander": [
+    "Gaming::Games"
+  ],
+  "Blazpay": [
+    "AI::Abstraction Infrastructure"
+  ],
+  "Blocklive": [
+    "Consumer::E-commerce / Ticketing"
+  ],
+  "BrahmaFi": [
+    "DeFi::DEX",
+    "DeFi::Lending"
+  ],
+  "Bro Fun": [
+    "Gaming::Games",
+    "Gaming::Mobile-First"
+  ],
+  "Bubblefi": [
+    "DeFi::DEX"
+  ],
+  "Castora": [
+    "Consumer::Prediction Market"
+  ],
+  "Catton AI": [
+    "Gaming::Games"
+  ],
+  "Chainlink": [
+    "Infra::Oracle"
+  ],
+  "Chaquen": [
+    "Consumer::Betting"
+  ],
+  "Clober": [
+    "DeFi::DEX"
+  ],
+  "Codatta": [
+    "AI::Data"
+  ],
+  "coNFT": [
+    "NFT::Infrastructure"
+  ],
+  "Cordial Systems": [
+    "Infra::Wallet"
+  ],
+  "Covenant": [
+    "DeFi::DEX",
+    "DeFi::Lending",
+    "DeFi::Stablecoin",
+    "DeFi::Yield"
+  ],
+  "Crust Finance": [
+    "DeFi::DEX"
+  ],
+  "Crystal": [
+    "DeFi::DEX"
+  ],
+  "Curvance": [
+    "DeFi::Lending"
+  ],
+  "Dark Forest Ares": [
+    "Gaming::Games"
+  ],
+  "DAU Cards": [
+    "Payments::Onramp and Offramps"
+  ],
+  "Defx": [
+    "DeFi::DEX"
+  ],
+  "Demask Financial": [
+    "NFT::NFTFi"
+  ],
+  "Diffuse": [
+    "Infra::Other"
+  ],
+  "Dirol Protocol": [
+    "DeFi::Other"
+  ],
+  "Doppler": [
+    "DeFi::DEX"
+  ],
+  "DRKVRS": [
+    "Gaming::Games"
+  ],
+  "Dusted": [
+    "Consumer::Social"
+  ],
+  "Dyson Finance": [
+    "DeFi::DEX"
+  ],
+  "Eisen": [
+    "DeFi::DEX Aggregator"
+  ],
+  "ELEPHAPP": [
+    "NFT::Collections"
+  ],
+  "EmelVerse": [
+    "NFT::Collections"
+  ],
+  "Encifher": [
+    "Infra::Privacy / Encryption"
+  ],
+  "Enjoyoors": [
+    "DeFi::Yield"
+  ],
+  "eOracle": [
+    "Infra::Oracle"
+  ],
+  "Euler": [
+    "DeFi::Lending"
+  ],
+  "Fantasy Top": [
+    "Consumer::Social"
+  ],
+  "FastLane": [
+    "DeFi::MEV"
+  ],
+  "Fiamma": [
+    "Infra::Interoperability"
+  ],
+  "Fizen.io": [
+    "Consumer::E-commerce / Ticketing"
+  ],
+  "Flap": [
+    "DeFi::Launchpads"
+  ],
+  "Flipside Crypto": [
+    "Infra::Analytics"
+  ],
+  "Folks Finance": [
+    "DeFi::Lending"
+  ],
+  "Fortytwo": [
+    "AI::Inference"
+  ],
+  "Fufuture": [
+    "DeFi::Options"
+  ],
+  "FUKU": [
+    "DeFi::Other"
+  ],
+  "GameRelay": [
+    "Gaming::Infrastructure"
+  ],
+  "Gamma Strategies": [
+    "DeFi::Yield"
+  ],
+  "Garden": [
+    "DeFi::Cross Chain"
+  ],
+  "Gasp": [
+    "DeFi::DEX"
+  ],
+  "Gelato": [
+    "Infra::AA",
+    "Infra::Automation",
+    "Infra::RaaS (Rollup as a Service)"
+  ],
+  "Gifted.art": [
+    "NFT::Collections"
+  ],
+  "GM Agents": [
+    "AI::Agent Launchpad",
+    "AI::Consumer AI",
+    "AI::Data"
+  ],
+  "Gmgn": [
+    "DeFi::DEX Aggregator"
+  ],
+  "Golden Goose": [
+    "DeFi::Yield Aggregator"
+  ],
+  "Gomoku3": [
+    "Gaming::Games"
+  ],
+  "Griffy": [
+    "Consumer::Betting"
+  ],
+  "HaHa Wallet": [
+    "Infra::Wallet"
+  ],
+  "Hashflow": [
+    "DeFi::Intents"
+  ],
+  "Hawk Terminal": [
+    "Gaming::Other"
+  ],
+  "Hedgemony": [
+    "AI::Other",
+    "DeFi::Intents"
+  ],
+  "Hive": [
+    "DeFi::Other"
+  ],
+  "Intract": [
+    "Infra::Identity"
+  ],
+  "Isle Finance": [
+    "DeFi::RWA"
+  ],
+  "iZUMi Finance": [
+    "DeFi::DEX"
+  ],
+  "Jarvis": [
+    "Gaming::Games"
+  ],
+  "KiloEx": [
+    "DeFi::Perpetuals / Derivatives"
+  ],
+  "KINETK": [
+    "AI::Consumer AI",
+    "AI::Data",
+    "DeFi::RWA",
+    "Infra::Other"
+  ],
+  "Kintsu": [
+    "DeFi::Liquid Staking"
+  ],
+  "Kinza Finance": [
+    "DeFi::Lending"
+  ],
+  "Kuru": [
+    "DeFi::DEX"
+  ],
+  "LA MOUCH": [
+    "NFT::Collections"
+  ],
+  "LayerZero": [
+    "Infra::Interoperability"
+  ],
+  "Legends of Elysium": [
+    "Gaming::Games"
+  ],
+  "Lendhub Protocol": [
+    "DeFi::Lending",
+    "NFT::NFTFi"
+  ],
+  "LFJ": [
+    "DeFi::DEX"
+  ],
+  "LootGO": [
+    "Consumer::Other"
+  ],
+  "Lootify": [
+    "NFT::Infrastructure"
+  ],
+  "M0narch": [
+    "Consumer::Betting",
+    "Consumer::Prediction Market"
+  ],
+  "Mace": [
+    "DeFi::DEX Aggregator"
+  ],
+  "Mach Exchange": [
+    "DeFi::DEX"
+  ],
+  "Madhouse": [
+    "DeFi::DEX Aggregator"
+  ],
+  "Madness": [
+    "DeFi::DEX"
+  ],
+  "Magic Eden": [
+    "NFT::Marketplace"
+  ],
+  "Magma": [
+    "DeFi::Liquid Staking"
+  ],
+  "MemeAIAssistant": [
+    "AI::Other"
+  ],
+  "Mentaport": [
+    "Infra::Other",
+    "NFT::Infrastructure"
+  ],
+  "Meta Leap": [
+    "Infra::Gaming"
+  ],
+  "Mon Name Service": [
+    "Infra::Identity"
+  ],
+  "Monad 2048": [
+    "Gaming::Games"
+  ],
+  "Monad Baby": [
+    "AI::Agent Launchpad"
+  ],
+  "MonadAI": [
+    "AI::Other"
+  ],
+  "Monadata AI": [
+    "AI::Data",
+    "DePIN::Data Labelling"
+  ],
+  "Monadex": [
+    "DeFi::DEX"
+  ],
+  "MonadTiles": [
+    "Gaming::Games"
+  ],
+  "Monda": [
+    "DeFi::DEX"
+  ],
+  "Monday Trade": [
+    "DeFi::DEX"
+  ],
+  "Monflipcoin": [
+    "Consumer::Betting",
+    "Gaming::Games"
+  ],
+  "Monix": [
+    "Gaming::Games",
+    "Gaming::Metaverse",
+    "NFT::Collections"
+  ],
+  "Monorail": [
+    "DeFi::DEX Aggregator"
+  ],
+  "Monport": [
+    "DeFi::DEX",
+    "NFT::Collections"
+  ],
+  "Montools": [
+    "Infra::Analytics",
+    "Infra::Developer Tooling",
+    "NFT::Infrastructure"
+  ],
+  "Monucet": [
+    "DeFi::Other"
+  ],
+  "Moseiki": [
+    "Consumer::Social"
+  ],
+  "Motatoes": [
+    "NFT::Collections"
+  ],
+  "Mu Digital": [
+    "DeFi::RWA"
+  ],
+  "MUKU": [
+    "AI::Consumer AI",
+    "Consumer::Social"
+  ],
+  "Multipli.fi": [
+    "DeFi::Asset Issuers"
+  ],
+  "Nabla Finance": [
+    "DeFi::DEX"
+  ],
+  "Nad Name Service": [
+    "Infra::Identity"
+  ],
+  "Nad.fun": [
+    "DeFi::Launchpads"
+  ],
+  "Nadflip": [
+    "Consumer::Betting",
+    "Gaming::Games"
+  ],
+  "Narwhal Finance": [
+    "DeFi::Perpetuals / Derivatives"
+  ],
+  "Neverland": [
+    "DeFi::Lending",
+    "Governance::Other",
+    "NFT::Other"
+  ],
+  "NFTs2Me": [
+    "NFT::Marketplace"
+  ],
+  "NitroFinance": [
+    "DeFi::DEX",
+    "DeFi::Lending"
+  ],
+  "Nomas Wallet": [
+    "Infra::Wallet"
+  ],
+  "Nostra": [
+    "DeFi::DEX",
+    "DeFi::Lending"
+  ],
+  "OctoSwap": [
+    "DeFi::DEX"
+  ],
+  "Opals": [
+    "Consumer::Social"
+  ],
+  "OpenPad AI": [
+    "AI::Data"
+  ],
+  "Opinion Labs": [
+    "Consumer::Prediction Market"
+  ],
+  "Orochi Network": [
+    "Infra::Oracle"
+  ],
+  "Outpost Surge": [
+    "Gaming::Games"
+  ],
+  "Owlto Finance": [
+    "Infra::Interoperability"
+  ],
+  "PancakeSwap": [
+    "DeFi::DEX"
+  ],
+  "Pike": [
+    "DeFi::Lending"
+  ],
+  "Pimlico": [
+    "Infra::AA"
+  ],
+  "Pingu Exchange": [
+    "DeFi::Perpetuals / Derivatives"
+  ],
+  "Plato": [
+    "Gaming::Games"
+  ],
+  "PLAY Network": [
+    "Gaming::Games"
+  ],
+  "Poply": [
+    "NFT::Marketplace"
+  ],
+  "Prediction3": [
+    "Consumer::Prediction Market"
+  ],
+  "Primex Finance": [
+    "DeFi::Prime Brokerage"
+  ],
+  "Primus": [
+    "Infra::Other",
+    "Infra::ZK"
+  ],
+  "Proof-of-Skill": [
+    "AI::Consumer AI"
+  ],
+  "PumpBTC": [
+    "DeFi::Asset Issuers"
+  ],
+  "Purps": [
+    "DeFi::Perpetuals / Derivatives"
+  ],
+  "Pyth Network": [
+    "Infra::Oracle"
+  ],
+  "QuestN": [
+    "Infra::Other"
+  ],
+  "RareBetSports": [
+    "Consumer::Betting"
+  ],
+  "ReactorFi": [
+    "DeFi::DEX"
+  ],
+  "Redbrick": [
+    "Gaming::Games"
+  ],
+  "Renzo": [
+    "DeFi::Asset Issuers"
+  ],
+  "Reservoir": [
+    "NFT::Infrastructure"
+  ],
+  "RgbClash": [
+    "Gaming::Games"
+  ],
+  "Rubic": [
+    "DeFi::DEX Aggregator"
+  ],
+  "Rug Rumble": [
+    "Consumer::Social",
+    "DeFi::Memecoin"
+  ],
+  "Rysk": [
+    "DeFi::Yield"
+  ],
+  "Seed Circle": [
+    "DeFi::Launchpads"
+  ],
+  "Showdown": [
+    "Gaming::Games"
+  ],
+  "sidekick": [
+    "Consumer::Social"
+  ],
+  "SkyTrade": [
+    "DeFi::RWA",
+    "DePIN::Other"
+  ],
+  "Slay The Moloch": [
+    "Gaming::Games"
+  ],
+  "Slogain": [
+    "Consumer::Other"
+  ],
+  "Solv Protocol": [
+    "DeFi::Asset Issuers"
+  ],
+  "Spine Finance": [
+    "DeFi::Lending"
+  ],
+  "StakeStone": [
+    "DeFi::Liquid Staking"
+  ],
+  "Standard Protocol": [
+    "DeFi::DEX"
+  ],
+  "Stork": [
+    "Infra::Oracle"
+  ],
+  "Sumer": [
+    "DeFi::Lending"
+  ],
+  "Swaap": [
+    "DeFi::DEX"
+  ],
+  "Swing Monad": [
+    "DeFi::Liquid Staking"
+  ],
+  "Switchboard": [
+    "Infra::Oracle"
+  ],
+  "Symphony": [
+    "AI::Abstraction Infrastructure",
+    "AI::Agent Launchpad",
+    "AI::Infrastructure",
+    "CeFi::Institutional Trading",
+    "DeFi::Cross Chain",
+    "DeFi::Intents",
+    "Infra::AA",
+    "Infra::Developer Tooling",
+    "Infra::Interoperability"
+  ],
+  "t3rn": [
+    "Infra::Interoperability"
+  ],
+  "Tadle": [
+    "DeFi::DEX"
+  ],
+  "Talentum": [
+    "Consumer::Social"
+  ],
+  "Tarobase": [
+    "Infra::Developer Tooling"
+  ],
+  "TAYA": [
+    "Consumer::Prediction Market",
+    "DeFi::DEX"
+  ],
+  "Taya swap": [
+    "DeFi::DEX"
+  ],
+  "Tezza Poker": [
+    "Gaming::Games"
+  ],
+  "The Aviator": [
+    "Gaming::Games"
+  ],
+  "The Vape Labs": [
+    "DePIN::Data Collection"
+  ],
+  "Timeswap": [
+    "DeFi::Lending"
+  ],
+  "tread.fi": [
+    "DeFi::Lending"
+  ],
+  "Treasure Dwarf Battles": [
+    "Gaming::Games"
+  ],
+  "Unipay": [
+    "DeFi::Asset Issuers",
+    "DeFi::Stablecoin"
+  ],
+  "Uniswap": [
+    "DeFi::DEX"
+  ],
+  "Upfloor": [
+    "NFT::Other"
+  ],
+  "Valor Quest": [
+    "Gaming::Games"
+  ],
+  "Wenwin": [
+    "Gaming::Games"
+  ],
+  "Wormhole": [
+    "Infra::Interoperability"
+  ],
+  "X-Mail": [
+    "Consumer::Social"
+  ],
+  "XL": [
+    "DeFi::Launchpads",
+    "DeFi::Memecoin"
+  ],
+  "Yamata": [
+    "DeFi::DEX"
+  ],
+  "Yap on Chain": [
+    "Gaming::Infrastructure"
+  ],
+  "YieldKingZ": [
+    "Consumer::Betting"
+  ],
+  "Zaros": [
+    "DeFi::Perpetuals / Derivatives"
+  ],
+  "zkSwap Finance": [
+    "DeFi::DEX"
+  ],
+  "Zona": [
+    "DeFi::RWA"
+  ]
+}

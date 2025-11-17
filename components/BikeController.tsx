@@ -8,6 +8,34 @@ interface BikeControllerProps {
   onPositionUpdate?: (position: THREE.Vector3) => void;
 }
 
+// Realistic Bugatti wheel - moved outside to avoid recreation
+function Wheel({ position, wheelRef }: { position: [number, number, number]; wheelRef: React.RefObject<THREE.Group | null> }) {
+  return (
+    <group ref={wheelRef} position={position}>
+      {/* Tire */}
+      <mesh castShadow rotation={[0, 0, Math.PI / 2]}>
+        <cylinderGeometry args={[0.55, 0.55, 0.45, 24]} />
+        <meshStandardMaterial color="#0a0a0a" roughness={0.95} />
+      </mesh>
+      {/* Rim outer */}
+      <mesh castShadow rotation={[0, 0, Math.PI / 2]}>
+        <cylinderGeometry args={[0.42, 0.42, 0.46, 24]} />
+        <meshStandardMaterial color="#2a2a2a" metalness={0.98} roughness={0.02} />
+      </mesh>
+      {/* Rim inner with purple accent */}
+      <mesh castShadow rotation={[0, 0, Math.PI / 2]}>
+        <cylinderGeometry args={[0.32, 0.32, 0.47, 16]} />
+        <meshStandardMaterial color="#9333ea" metalness={0.95} roughness={0.05} />
+      </mesh>
+      {/* Center hub */}
+      <mesh castShadow rotation={[0, 0, Math.PI / 2]}>
+        <cylinderGeometry args={[0.16, 0.16, 0.48, 16]} />
+        <meshStandardMaterial color="#7c3aed" metalness={0.98} roughness={0.02} />
+      </mesh>
+    </group>
+  );
+}
+
 export default function BikeController({ onPositionUpdate }: BikeControllerProps) {
   const carRef = useRef<THREE.Group>(null);
   const frontLeftWheelRef = useRef<THREE.Group>(null);
@@ -16,7 +44,6 @@ export default function BikeController({ onPositionUpdate }: BikeControllerProps
   const backRightWheelRef = useRef<THREE.Group>(null);
   const exhaustRefs = useRef<(THREE.Mesh | null)[]>([]);
   
-  const velocity = useRef(new THREE.Vector3());
   const rotationVelocity = useRef(0);
   const { camera } = useThree();
   const [keys, setKeys] = useState<Set<string>>(new Set());
@@ -120,59 +147,22 @@ export default function BikeController({ onPositionUpdate }: BikeControllerProps
 
     const carPosition = carRef.current.position;
     // Camera positioned behind the car (negative Z = behind, since car now faces +Z)
+    // Reuse vectors to avoid allocations
     const cameraOffset = new THREE.Vector3(0, 5, -10);
     cameraOffset.applyQuaternion(carRef.current.quaternion);
-    const targetPosition = carPosition.clone().add(cameraOffset);
-    camera.position.lerp(targetPosition, 0.08);
+    cameraOffset.add(carPosition);
+    camera.position.lerp(cameraOffset, 0.08);
     
     // Look ahead in the direction the car is facing (positive Z = forward for the car)
     const lookAhead = new THREE.Vector3(0, 1, 15);
     lookAhead.applyQuaternion(carRef.current.quaternion);
-    const lookAtTarget = carPosition.clone().add(lookAhead);
-    camera.lookAt(lookAtTarget);
+    lookAhead.add(carPosition);
+    camera.lookAt(lookAhead);
 
     if (onPositionUpdate) {
-      onPositionUpdate(carPosition.clone());
+      onPositionUpdate(carPosition);
     }
   });
-
-  // Create smooth curved body using custom geometry
-  const createCurvedBody = () => {
-    const shape = new THREE.Shape();
-    shape.moveTo(-1, 0);
-    shape.lineTo(1, 0);
-    shape.lineTo(1, 0.5);
-    shape.quadraticCurveTo(0.5, 0.8, 0, 0.8);
-    shape.quadraticCurveTo(-0.5, 0.8, -1, 0.5);
-    shape.lineTo(-1, 0);
-    return shape;
-  };
-
-  // Realistic Bugatti wheel
-  const Wheel = ({ position, wheelRef }: { position: [number, number, number]; wheelRef: React.RefObject<THREE.Group | null> }) => (
-    <group ref={wheelRef} position={position}>
-      {/* Tire */}
-      <mesh castShadow rotation={[0, 0, Math.PI / 2]}>
-        <cylinderGeometry args={[0.55, 0.55, 0.45, 48]} />
-        <meshStandardMaterial color="#0a0a0a" roughness={0.95} />
-      </mesh>
-      {/* Rim outer - high detail */}
-      <mesh castShadow rotation={[0, 0, Math.PI / 2]}>
-        <cylinderGeometry args={[0.42, 0.42, 0.46, 48]} />
-        <meshStandardMaterial color="#2a2a2a" metalness={0.98} roughness={0.02} />
-      </mesh>
-      {/* Rim inner with purple accent */}
-      <mesh castShadow rotation={[0, 0, Math.PI / 2]}>
-        <cylinderGeometry args={[0.32, 0.32, 0.47, 20]} />
-        <meshStandardMaterial color="#9333ea" metalness={0.95} roughness={0.05} />
-      </mesh>
-      {/* Center hub */}
-      <mesh castShadow rotation={[0, 0, Math.PI / 2]}>
-        <cylinderGeometry args={[0.16, 0.16, 0.48, 24]} />
-        <meshStandardMaterial color="#7c3aed" metalness={0.98} roughness={0.02} />
-      </mesh>
-    </group>
-  );
 
   const bugattiPurple = "#9333ea";
   const bugattiPurpleDark = "#7c3aed";
