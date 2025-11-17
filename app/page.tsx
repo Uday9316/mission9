@@ -125,67 +125,77 @@ export default function Home() {
 
       {/* Overlay UI */}
       <div className="absolute inset-0 pointer-events-none">
-        {/* Top Bar - Filters */}
-        <div className="pointer-events-auto absolute top-4 left-1/2 -translate-x-1/2 z-10">
-          <div className="flex items-center gap-3 rounded-lg bg-black/80 backdrop-blur-sm p-4 text-white">
-            <div className="w-64">
+        {/* Filters - Monad Style */}
+        <div className="pointer-events-auto absolute top-6 right-24 z-10">
+          <div className="flex items-center gap-6 text-black">
+            {/* Search */}
+            <div className="relative">
               <Input
-                placeholder="Search projects..."
+                placeholder="search"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="bg-white/10 border-white/20 text-white placeholder:text-white/50"
-        />
+                className="w-48 h-8 bg-transparent border-0 border-b border-black/20 text-black text-sm font-light tracking-wider placeholder:text-black/40 focus-visible:ring-0 focus-visible:outline-none focus-visible:border-black/40 rounded-none px-0 pb-1 transition-colors uppercase"
+              />
             </div>
+
+            {/* Category */}
             <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-              <SelectTrigger className="w-[140px] bg-white/10 border-white/20 text-white">
-                <SelectValue placeholder="Category" />
+              <SelectTrigger className="w-auto min-w-[100px] h-8 bg-transparent border-0 border-b border-black/20 text-black text-sm font-light tracking-wider focus-visible:ring-0 hover:border-black/40 rounded-none px-0 pb-1 transition-colors uppercase">
+                <SelectValue placeholder="category" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="bg-white border border-black/20">
                 {categories.map((category) => (
-                  <SelectItem key={category} value={category}>
-                    {category}
+                  <SelectItem key={category} value={category} className="text-black font-light uppercase tracking-wider">
+                    {category === "All" ? `all (${dapps.length})` : category.toLowerCase()}
                   </SelectItem>
                 ))}
               </SelectContent>
             </Select>
+
+            {/* Type */}
             <Select value={selectedType} onValueChange={setSelectedType}>
-              <SelectTrigger className="w-[120px] bg-white/10 border-white/20 text-white">
-                <SelectValue placeholder="Type" />
+              <SelectTrigger className="w-auto min-w-[80px] h-8 bg-transparent border-0 border-b border-black/20 text-black text-sm font-light tracking-wider focus-visible:ring-0 hover:border-black/40 rounded-none px-0 pb-1 transition-colors uppercase">
+                <SelectValue placeholder="type" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="bg-white border border-black/20">
                 {types.map((type) => (
-                  <SelectItem key={type} value={type}>
-                    {type}
+                  <SelectItem key={type} value={type} className="text-black font-light uppercase tracking-wider">
+                    {type === "All" ? `all (${dapps.length})` : type.toLowerCase()}
                   </SelectItem>
                 ))}
               </SelectContent>
             </Select>
-            {(searchQuery || selectedCategory !== "All" || selectedType !== "All" || selectedStatus !== "All") && (
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => {
-                  setSearchQuery("");
-                  setSelectedCategory("All");
-                  setSelectedType("All");
-                  setSelectedStatus("All");
-                }}
-                className="text-white hover:bg-white/20"
-              >
-                Clear
-              </Button>
-            )}
+
+            {/* Clear - Fixed space to prevent layout shift */}
+            <div className="w-16 h-8 flex items-center">
+              {(searchQuery || selectedCategory !== "All" || selectedType !== "All" || selectedStatus !== "All") && (
+                <button
+                  onClick={() => {
+                    setSearchQuery("");
+                    setSelectedCategory("All");
+                    setSelectedType("All");
+                    setSelectedStatus("All");
+                  }}
+                  className="h-8 px-2 text-black/60 text-sm font-light tracking-wider hover:text-black transition-colors uppercase border-0 border-b border-transparent hover:border-black/20 pb-1"
+                >
+                  clear
+                </button>
+              )}
+            </div>
           </div>
         </div>
 
         {/* Title */}
-        <div className="absolute top-4 left-4 pointer-events-auto z-10">
-          <h1 className="text-2xl font-bold text-black drop-shadow-lg">
-            Monad Ecosystem
-          </h1>
-          <p className="text-sm text-white/80">
-            {filteredDapps.length} projects
-          </p>
+        <div className="absolute top-6 left-6 pointer-events-auto z-10">
+          <div className="flex flex-col gap-1">
+            <h1 className="text-4xl font-light text-black tracking-[0.15em] uppercase leading-none">
+              Monad
+            </h1>
+            <h2 className="text-lg font-extralight text-black/60 tracking-[0.25em] uppercase ml-0.5">
+              Ecosystem  --- {filteredDapps.length} 
+            </h2>
+        
+          </div>
         </div>
 
         {/* Sound Toggle */}

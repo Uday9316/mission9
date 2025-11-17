@@ -3,6 +3,7 @@
 import React, { useState, Suspense, useEffect, useCallback } from "react";
 import { Image, Text, Billboard } from "@react-three/drei";
 import { projectLogos } from "@/data/logoMap";
+import * as THREE from "three";
 
 interface ProjectLogoProps {
   name: string;
@@ -172,10 +173,22 @@ export default function ProjectLogo({ name, id }: ProjectLogoProps) {
           {/* eslint-disable-next-line jsx-a11y/alt-text */}
           <Image 
             url={logoUrl} 
-            scale={[0.9, 0.9]} 
+            scale={[1.1, 1.1]} 
             transparent={true}
-            position={[0, 0, 0.1]}
+            opacity={1}
+            position={[0, 0, 0.15]}
+            toneMapped={false}
           />
+          {/* Subtle glow behind logo for better visibility */}
+          <mesh position={[0, 0, 0.1]}>
+            <circleGeometry args={[0.5, 32]} />
+            <meshBasicMaterial
+              color="#ffffff"
+              transparent
+              opacity={0.1}
+              side={THREE.DoubleSide}
+            />
+          </mesh>
         </Suspense>
       </ErrorBoundary>
     </Billboard>
