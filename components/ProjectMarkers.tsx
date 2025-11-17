@@ -51,50 +51,6 @@ function AnimatedGlowSphere({
   );
 }
 
-// Animated particle component
-function AnimatedParticle({ 
-  index, 
-  total, 
-  color 
-}: { 
-  index: number; 
-  total: number; 
-  color: string;
-}) {
-  const particleRef = useRef<THREE.Mesh>(null);
-  const angle = (index / total) * Math.PI * 2;
-  const radius = 0.95;
-  
-  useFrame((state) => {
-    if (particleRef.current) {
-      const time = state.clock.getElapsedTime();
-      particleRef.current.position.x = Math.cos(angle + time * 0.5) * radius;
-      particleRef.current.position.y = Math.sin(angle * 0.5 + time * 0.3) * radius;
-      particleRef.current.position.z = Math.sin(angle + time * 0.4) * radius;
-    }
-  });
-
-  return (
-    <mesh
-      ref={particleRef}
-      position={[
-        Math.cos(angle) * radius,
-        Math.sin(angle * 0.5) * radius,
-        Math.sin(angle) * radius,
-      ]}
-    >
-      <sphereGeometry args={[0.04, 8, 8]} />
-      <meshStandardMaterial
-        color={color}
-        emissive={color}
-        emissiveIntensity={2}
-        transparent
-        opacity={0.9}
-      />
-    </mesh>
-  );
-}
-
 interface ProjectMarkersProps {
   dapps: Dapp[];
   onSelect: (dapp: Dapp) => void;
@@ -246,20 +202,6 @@ export default function ProjectMarkers({ dapps, onSelect, bikePosition = new THR
                 />
               </mesh>
 
-              {/* Floating particles effect when hovered/nearby - animated */}
-              {(isHovered || isNearby) && (
-                <>
-                  {[...Array(6)].map((_, i) => (
-                    <AnimatedParticle
-                      key={i}
-                      index={i}
-                      total={6}
-                      color={typeColor}
-                    />
-                  ))}
-                </>
-              )}
-              
               {/* Project Logo - main visible element */}
               <ProjectLogo name={dapp.name} id={dapp.id} website={dapp.website} />
             </group>
