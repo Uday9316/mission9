@@ -30,6 +30,7 @@ export default function Scene3D({ filteredDapps, onProjectSelect }: Scene3DProps
         }}
       >
         <Suspense fallback={null}>
+          <color attach="background" args={["#f1e6ff"]} />
           {/* Lighting */}
           <ambientLight intensity={0.4} />
           <directionalLight
